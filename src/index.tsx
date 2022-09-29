@@ -11,7 +11,6 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import './assets/styles/_reset.scss';
 import './assets/styles/_index.scss';
 
 import App from './App';
