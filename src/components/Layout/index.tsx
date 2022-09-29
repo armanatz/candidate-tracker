@@ -4,12 +4,14 @@ import NavBar from './Navbar';
 
 import styles from './Layout.module.scss';
 
-export default function Layout() {
+type LayoutProps = React.PropsWithChildren;
+
+export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <NavBar />
       <main className={styles.container}>
-        <Outlet />
+        {children || <Outlet />}
       </main>
     </>
   );

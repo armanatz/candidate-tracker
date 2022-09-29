@@ -13,6 +13,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './assets/styles/_index.scss';
 
+import ErrorBoundary from './components/ErrorBoundary';
+
 import App from './App';
 
 const queryClient = new QueryClient({
@@ -27,13 +29,15 @@ ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 ).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={<App />} />
-        </Routes>
-      </BrowserRouter>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <ErrorBoundary withLayout>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
