@@ -9,6 +9,7 @@ import {
 
 import styles from './CandidateInfo.module.scss';
 
+// TODO: There should be a better way to merge the CandidateData type with this...
 type CandidateInfoProps = {
   name: string;
   email: string;
