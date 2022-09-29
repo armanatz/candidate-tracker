@@ -1,4 +1,4 @@
-import styles from './style.module.scss';
+import styles from './FullPageLoader.module.scss';
 
 export default function FullPageLoader() {
   return (

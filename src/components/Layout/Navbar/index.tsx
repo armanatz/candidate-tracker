@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import logo from '../../../assets/logo.svg';
 
-import styles from './style.module.scss';
+import styles from './Navbar.module.scss';
 
 export default function NavBar() {
   const [imgLoaded, setImageLoaded] = useState(false);

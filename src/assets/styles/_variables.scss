@@ -1,4 +1,20 @@
-// Colors
-$primary-color: #ff0;
-$secondary-color: #10b5df;
+// Size Fractions
+$xs: 0.5;
+$sm: 0.75;
+$md: 1;
+$lg: 1.25;
+$xl: 1.5;
+$xxl: 1.75;
+$xxxl: 2;
+
+// Functional values
 $darken-value: 15%;
+
+// Colors
+$brand-color: #ff0;
+$primary-action-color: #10b5df;
+$secondary-action-color: #ccc;
+$danger-action-color: #db2a41;
+
+// Font sizes
+$base-font-size: 1rem;

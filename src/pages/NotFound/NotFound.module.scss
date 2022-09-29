@@ -1,6 +1,6 @@
 @use 'sass:color';
 
-@use '../../assets/styles/variables';
+@use '../../assets/styles/variables' as vars;
 
 .container {
   display: flex;
@@ -27,12 +27,12 @@
 
 .link {
   text-decoration: none;
-  color: variables.$secondary-color;
+  color: vars.$primary-action-color;
 
   &:hover {
     color: color.scale(
-      variables.$secondary-color,
-      $blackness: variables.$darken-value
+      vars.$primary-action-color,
+      $blackness: vars.$darken-value
     );
   }
 }

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Travolta from '../../assets/confused_travolta.gif';
 
-import styles from './style.module.scss';
+import styles from './NotFound.module.scss';
 
 export default function NotFound() {
   return (
