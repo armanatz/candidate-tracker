@@ -1,0 +1,60 @@
+@use '../../assets/styles/media_queries' as mediaQ;
+
+.title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  margin-left: 6rem;
+
+  svg {
+    transform: scale(1.2);
+  }
+
+  @include mediaQ.tablet-landscape-and-down {
+    justify-content: center;
+    margin-left: 0;
+  }
+}
+
+.grid-container {
+  background-color: #fff;
+  width: 100%;
+  padding: 2rem 6rem;
+
+  @include mediaQ.tablet-landscape-and-down {
+    padding: 2rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(220px, 1fr)
+    );
+    gap: 1rem;
+
+    @include mediaQ.tablet {
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(340px, 1fr)
+      );
+    }
+
+    @include mediaQ.tablet-landscape {
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(300px, 1fr)
+      );
+    }
+
+    @include mediaQ.pc-and-up {
+      grid-template-columns: repeat(
+        auto-fill,
+        minmax(260px, 1fr)
+      );
+    }
+  }
+}
