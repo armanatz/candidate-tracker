@@ -1,47 +1,17 @@
-import { useState } from 'react';
-
-import logo from './logo.svg';
+import { Suspense } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <header>
-        <img src={logo} alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button
-            type="button"
-            onClick={() =>
-              setCount(prevState => prevState + 1)
-            }
-          >
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR
-          updates.
-        </p>
-        <p>
-          <a
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Suspense>
+            <div>Home</div>
+          </Suspense>
+        }
+      />
+    </Routes>
   );
 }
