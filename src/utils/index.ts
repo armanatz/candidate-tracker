@@ -1,3 +1,4 @@
 import calculateAge from './calculateAge';
+import prettyDate from './prettyDate';
 
-export { calculateAge };
+export { calculateAge, prettyDate };
