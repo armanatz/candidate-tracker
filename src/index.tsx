@@ -9,6 +9,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import './assets/styles/_reset.scss';
 import './assets/styles/_index.scss';
@@ -33,6 +34,7 @@ ReactDOM.createRoot(
           <Route path="/*" element={<App />} />
         </Routes>
       </BrowserRouter>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </React.StrictMode>,
 );
