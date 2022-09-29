@@ -24,15 +24,3 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-
-.link {
-  text-decoration: none;
-  color: vars.$primary-action-color;
-
-  &:hover {
-    color: color.scale(
-      vars.$primary-action-color,
-      $blackness: vars.$darken-value
-    );
-  }
-}

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 import Travolta from '../../assets/confused_travolta.gif';
@@ -18,10 +17,7 @@ export default function NotFound() {
         You stumbled into somewhere unknown and we
         couldn&apos;t figure out where you were going :/
       </p>
-      <Link
-        to="/"
-        className={classNames(styles.text, styles.link)}
-      >
+      <Link to="/" className={styles.text}>
         Let&apos;s take you back somewhere safe, shall we?
       </Link>
     </div>

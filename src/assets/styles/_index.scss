@@ -1,4 +1,16 @@
+@use './variables' as vars;
 @use './reset';
+
+@use 'sass:color';
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   background-color: #f8f8f8;
@@ -8,4 +20,16 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: vars.$primary-color;
+
+  &:hover {
+    color: color.scale(
+      vars.$primary-color,
+      $blackness: vars.$darken-value
+    );
+  }
 }
