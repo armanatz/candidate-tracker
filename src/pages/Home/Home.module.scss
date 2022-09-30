@@ -5,7 +5,21 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 1.4rem;
-  padding: 0 6rem;
+
+  @include mediaQ.mobile-landscape-and-down {
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  @include mediaQ.tablet-landscape-and-down {
+    padding: 0 2rem;
+  }
+
+  @include mediaQ.pc-and-up {
+    padding: 0 6rem;
+  }
 
   .title {
     align-items: center;
@@ -18,17 +32,6 @@
       height: 1em;
       width: 1em;
     }
-
-    @include mediaQ.tablet-landscape-and-down {
-      justify-content: center;
-      margin-left: 0;
-    }
-  }
-
-  .action-area {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
   }
 }
 

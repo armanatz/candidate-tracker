@@ -1,6 +1,8 @@
 import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import { CandidatesProvider } from './contexts/Candidates';
+
 import Layout from './components/Layout';
 import FullPageLoader from './components/FullPageLoader';
 
@@ -15,7 +17,9 @@ export default function App() {
           path="/"
           element={
             <Suspense fallback={<FullPageLoader />}>
-              <Home />
+              <CandidatesProvider>
+                <Home />
+              </CandidatesProvider>
             </Suspense>
           }
         />

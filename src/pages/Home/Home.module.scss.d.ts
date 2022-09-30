@@ -1,14 +1,8 @@
 declare const classNames: {
   readonly header: 'header';
-  readonly title: 'title';
   readonly 'grid-container': 'grid-container';
-  readonly 'action-area': 'action-area';
   readonly grid: 'grid';
+  readonly title: 'title';
 };
 export default classNames;
-export type ClassNames =
-  | 'header'
-  | 'title'
-  | 'grid-container'
-  | 'action-area'
-  | 'grid';
+export type ClassNames = 'header' | 'grid-container' | 'grid' | 'title';
