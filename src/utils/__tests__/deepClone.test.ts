@@ -24,30 +24,20 @@ describe('handling cloning of objects and arrays', () => {
 
   const emptyArr: never[] = [];
 
-  const arrOfSingleLevelObjs = [
-    singleLevelObj,
-    singleLevelObj,
-  ];
+  const arrOfSingleLevelObjs = [singleLevelObj, singleLevelObj];
 
-  const arrOfMultiLevelObjs = [
-    multiLevelObj,
-    multiLevelObj,
-  ];
+  const arrOfMultiLevelObjs = [multiLevelObj, multiLevelObj];
 
   it('clones an empty object', () => {
     expect(deepClone(emptyObj)).not.toBe(emptyObj);
   });
 
   it('clones a single level object', () => {
-    expect(deepClone(singleLevelObj)).not.toBe(
-      singleLevelObj,
-    );
+    expect(deepClone(singleLevelObj)).not.toBe(singleLevelObj);
   });
 
   it('clones a multi level object', () => {
-    expect(deepClone(multiLevelObj)).not.toBe(
-      multiLevelObj,
-    );
+    expect(deepClone(multiLevelObj)).not.toBe(multiLevelObj);
   });
 
   it('clones an empty array', () => {
@@ -55,15 +45,11 @@ describe('handling cloning of objects and arrays', () => {
   });
 
   it('clones an array of single level objects', () => {
-    expect(deepClone(arrOfSingleLevelObjs)).not.toBe(
-      arrOfSingleLevelObjs,
-    );
+    expect(deepClone(arrOfSingleLevelObjs)).not.toBe(arrOfSingleLevelObjs);
   });
 
   it('clones an array of multi level objects', () => {
-    expect(deepClone(arrOfMultiLevelObjs)).not.toBe(
-      arrOfMultiLevelObjs,
-    );
+    expect(deepClone(arrOfMultiLevelObjs)).not.toBe(arrOfMultiLevelObjs);
   });
 });
 

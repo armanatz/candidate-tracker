@@ -5,8 +5,4 @@ declare const classNames: {
   readonly text: 'text';
 };
 export default classNames;
-export type ClassNames =
-  | 'container'
-  | 'title'
-  | 'travolta'
-  | 'text';
+export type ClassNames = 'container' | 'title' | 'travolta' | 'text';

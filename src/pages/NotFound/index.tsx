@@ -14,8 +14,8 @@ export default function NotFound() {
         className={styles.travolta}
       />
       <p className={styles.text}>
-        You stumbled into somewhere unknown and we
-        couldn&apos;t figure out where you were going :/
+        You stumbled into somewhere unknown and we couldn&apos;t figure out
+        where you were going :/
       </p>
       <Link to="/" className={styles.text}>
         Let&apos;s take you back somewhere safe, shall we?

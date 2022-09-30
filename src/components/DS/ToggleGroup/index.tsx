@@ -10,36 +10,25 @@ import {
 
 import styles from './ToggleGroup.module.scss';
 
-interface ToggleGroupProps
-  extends ToggleGroupImplSingleProps {
+interface ToggleGroupProps extends ToggleGroupImplSingleProps {
   items: {
     value: string;
     children: React.ReactNode;
   }[];
 }
 
-const ToggleGroup = forwardRef<
-  HTMLDivElement,
-  ToggleGroupProps
->((props, forwardedRef) => {
-  return (
-    <Root
-      ref={forwardedRef}
-      type="single"
-      {...props}
-      className={styles.root}
-    >
-      {props.items.map(item => (
-        <Item
-          key={item.value}
-          value={item.value}
-          className={styles.item}
-        >
-          {item.children}
-        </Item>
-      ))}
-    </Root>
-  );
-});
+const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
+  (props, forwardedRef) => {
+    return (
+      <Root ref={forwardedRef} type="single" {...props} className={styles.root}>
+        {props.items.map(item => (
+          <Item key={item.value} value={item.value} className={styles.item}>
+            {item.children}
+          </Item>
+        ))}
+      </Root>
+    );
+  },
+);
 
 export default ToggleGroup;

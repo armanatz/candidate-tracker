@@ -11,10 +11,7 @@ type ErrorBoundaryState = {
   hasError: boolean;
 };
 
-class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   static defaultProps = {
     withLayout: false,
   };

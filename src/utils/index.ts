@@ -4,10 +4,4 @@ import prettyDate from './prettyDate';
 import sortArrOfObjs from './sortArrOfObjs';
 import toTitleCase from './toTitleCase';
 
-export {
-  calculateAge,
-  deepClone,
-  prettyDate,
-  sortArrOfObjs,
-  toTitleCase,
-};
+export { calculateAge, deepClone, prettyDate, sortArrOfObjs, toTitleCase };

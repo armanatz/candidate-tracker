@@ -21,16 +21,12 @@ type SortFunction<T, K> = {
 };
 
 // Check if passed date string is valid
-const isValidDate = (
-  dateString: string,
-  format = 'yyyy-MM-dd',
-) => isValid(parse(dateString, format, new Date()));
+const isValidDate = (dateString: string, format = 'yyyy-MM-dd') =>
+  isValid(parse(dateString, format, new Date()));
 
 // Parse date string into JS Date
-const parseDate = (
-  dateString: string,
-  format = 'yyyy-MM-dd',
-) => parse(dateString, format, new Date());
+const parseDate = (dateString: string, format = 'yyyy-MM-dd') =>
+  parse(dateString, format, new Date());
 
 // Custom sort function for the Array.prototype.sort() method
 const sortFn = <T, K extends keyof T>({
@@ -60,27 +56,18 @@ const sortFn = <T, K extends keyof T>({
     */
   if (itemTypes.every(item => item === 'string')) {
     // Check if strings are valid date strings
-    if (
-      isValidDate(items[0] as string) &&
-      isValidDate(items[1] as string)
-    ) {
+    if (isValidDate(items[0] as string) && isValidDate(items[1] as string)) {
       // Convert the parsed dates into Epoch time
       const dateA = parseDate(items[0] as string).getTime();
       const dateB = parseDate(items[1] as string).getTime();
 
-      return sortDirection === 'asc'
-        ? dateA - dateB
-        : dateB - dateA;
+      return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
     }
 
     // Strings are alphanumeric so do a localeCompare instead
     return sortDirection === 'asc'
-      ? (items[0] as string).localeCompare(
-          items[1] as string,
-        )
-      : (items[1] as string).localeCompare(
-          items[0] as string,
-        );
+      ? (items[0] as string).localeCompare(items[1] as string)
+      : (items[1] as string).localeCompare(items[0] as string);
   }
 
   /*

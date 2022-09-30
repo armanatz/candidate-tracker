@@ -10,9 +10,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <>
       <NavBar />
-      <main className={styles.container}>
-        {children || <Outlet />}
-      </main>
+      <main className={styles.container}>{children || <Outlet />}</main>
     </>
   );
 }

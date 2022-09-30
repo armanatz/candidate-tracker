@@ -12,29 +12,22 @@ import {
   ScrollUpButton,
   Viewport,
   ScrollDownButton,
+  SelectProps,
 } from '@radix-ui/react-select';
-import {
-  IconChevronDown,
-  IconCaretUp,
-  IconCaretDown,
-} from '@tabler/icons';
+import { IconChevronDown, IconCaretUp, IconCaretDown } from '@tabler/icons';
 
 import styles from './Select.module.scss';
 
-interface SelectProps extends React.PropsWithChildren {
+interface MySelectProps extends SelectProps {
   ariaLabel: string;
   placeholder: string;
-  value?: string;
   onChange?: (value: any) => void;
 }
 
-const Select = forwardRef<HTMLButtonElement, SelectProps>(
+const Select = forwardRef<HTMLButtonElement, MySelectProps>(
   ({ children, ...props }, forwardedRef) => {
     return (
-      <Root
-        value={props.value}
-        onValueChange={props.onChange}
-      >
+      <Root {...props} value={props.value} onValueChange={props.onChange}>
         <Trigger
           ref={forwardedRef}
           aria-label={props.ariaLabel}
@@ -47,17 +40,11 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
         </Trigger>
         <Portal>
           <Content className={styles.content}>
-            <ScrollUpButton
-              className={styles['scroll-btn']}
-            >
+            <ScrollUpButton className={styles['scroll-btn']}>
               <IconCaretUp />
             </ScrollUpButton>
-            <Viewport className={styles.viewport}>
-              {children}
-            </Viewport>
-            <ScrollDownButton
-              className={styles['scroll-btn']}
-            >
+            <Viewport className={styles.viewport}>{children}</Viewport>
+            <ScrollDownButton className={styles['scroll-btn']}>
               <IconCaretDown />
             </ScrollDownButton>
           </Content>
@@ -68,7 +55,6 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
 );
 
 Select.defaultProps = {
-  value: undefined,
   onChange: undefined,
 };
 

@@ -1,11 +1,7 @@
 import { IconMail } from '@tabler/icons';
 import classNames from 'classnames';
 
-import {
-  calculateAge,
-  prettyDate,
-  toTitleCase,
-} from '../../utils';
+import { calculateAge, prettyDate, toTitleCase } from '../../utils';
 
 import styles from './CandidateInfo.module.scss';
 
@@ -50,8 +46,7 @@ export default function CandidateInfo({
             <p className={styles.topic}>Experience</p>
             <p>
               {yearsOfExperience}{' '}
-              {yearsOfExperience > 1 &&
-              yearsOfExperience !== 0
+              {yearsOfExperience > 1 && yearsOfExperience !== 0
                 ? 'years'
                 : 'year'}
             </p>

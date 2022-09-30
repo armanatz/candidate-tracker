@@ -7,7 +7,7 @@ it('returns a string', () => {
 });
 
 it('returns string in title case', () => {
-  expect(
-    toTitleCase("i'm a non title case string :o"),
-  ).toBe("I'm A Non Title Case String :o");
+  expect(toTitleCase("i'm a non title case string :o")).toBe(
+    "I'm A Non Title Case String :o",
+  );
 });

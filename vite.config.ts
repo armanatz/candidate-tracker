@@ -9,12 +9,7 @@ import sassDts from 'vite-plugin-sass-dts';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => ({
-  plugins: [
-    eslintPlugin(),
-    react(),
-    sassDts(),
-    tsconfigPaths(),
-  ],
+  plugins: [eslintPlugin(), react(), sassDts(), tsconfigPaths()],
   test: {
     clearMocks: true,
     css: false,

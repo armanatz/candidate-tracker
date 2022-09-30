@@ -1,7 +1,4 @@
-import {
-  useQuery,
-  UseQueryOptions,
-} from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 import useAxios from '../useAxios';
 
 type TQueryFnData = GetCandidatesResponse;
@@ -18,22 +15,20 @@ export default function useGetCandidates(opts?: Options) {
   const axios = useAxios();
 
   const axiosReq = async () => {
-    const promise = new Promise<GetCandidatesResponse>(
-      (resolve, reject) => {
-        axios
-          .get('/candidates')
-          .then(res => {
-            if (res.status === 200 && 'error' in res.data) {
-              return reject(res.data);
-            }
+    const promise = new Promise<GetCandidatesResponse>((resolve, reject) => {
+      axios
+        .get('/candidates')
+        .then(res => {
+          if (res.status === 200 && 'error' in res.data) {
+            return reject(res.data);
+          }
 
-            return resolve(res.data);
-          })
-          .catch(err => {
-            return reject(err);
-          });
-      },
-    );
+          return resolve(res.data);
+        })
+        .catch(err => {
+          return reject(err);
+        });
+    });
 
     const result = await promise;
     return result;
