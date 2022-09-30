@@ -1,28 +1,35 @@
 @use '../../assets/styles/media_queries' as mediaQ;
 
-.title {
-  display: flex;
-  gap: 1rem;
+.action-area {
   align-items: center;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  margin-left: 6rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+  padding: 0 6rem;
 
-  svg {
-    transform: scale(1.2);
-  }
+  .title {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    font-size: 2rem;
+    font-weight: bold;
 
-  @include mediaQ.tablet-landscape-and-down {
-    justify-content: center;
-    margin-left: 0;
+    svg {
+      height: 1em;
+      width: 1em;
+    }
+
+    @include mediaQ.tablet-landscape-and-down {
+      justify-content: center;
+      margin-left: 0;
+    }
   }
 }
 
 .grid-container {
   background-color: #fff;
-  width: 100%;
   padding: 2rem 6rem;
+  width: 100%;
 
   @include mediaQ.tablet-landscape-and-down {
     padding: 2rem;
@@ -30,11 +37,11 @@
 
   .grid {
     display: grid;
+    gap: 1rem;
     grid-template-columns: repeat(
       auto-fill,
       minmax(220px, 1fr)
     );
-    gap: 1rem;
 
     @include mediaQ.tablet {
       grid-template-columns: repeat(
