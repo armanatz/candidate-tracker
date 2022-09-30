@@ -13,8 +13,6 @@ import deepClone from './deepClone';
   3. Numbers
 */
 
-type SortDirection = 'asc' | 'desc';
-
 type SortFunction<T, K> = {
   leftEl: T;
   rightEl: T;

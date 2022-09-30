@@ -1,11 +1,20 @@
-import { useRef, useState } from 'react';
-import { IconUsers } from '@tabler/icons';
+import { useCallback, useRef, useState } from 'react';
+import {
+  IconSortAscending2,
+  IconSortDescending2,
+  IconUsers,
+} from '@tabler/icons';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { sortArrOfObjs } from '../../utils';
 import useGetCandidates from '../../hooks/queries/candidates';
 
-import { Card, Select, Option } from '../../components/DS';
+import {
+  Card,
+  Select,
+  Option,
+  ToggleGroup,
+} from '../../components/DS';
 
 import CandidateInfo from '../../components/CandidateInfo';
 
@@ -16,43 +25,86 @@ type SortingKeys =
   | 'year_of_experience'
   | 'application_date';
 
+type SortByState = {
+  key: 'none' | SortingKeys;
+  dir: SortDirection;
+};
+
 export default function Home() {
   const candidatesCached = useRef<CandidateData[]>([]);
-  const [sortBy, setSortBy] = useState('none');
+
+  const [sortBy, setSortBy] = useState<SortByState>({
+    key: 'none',
+    dir: 'asc',
+  });
 
   const queryClient = useQueryClient();
 
   const { data: candidates, status: candidatesStatus } =
     useGetCandidates({
       onSuccess: data => {
-        setSortBy('none');
+        setSortBy(currentState => ({
+          ...currentState,
+          key: 'none',
+        }));
+
         if (data.data) {
           candidatesCached.current = data.data;
         }
       },
     });
 
-  const sortCandidates = (
-    sortKey: 'none' | SortingKeys,
-  ) => {
-    setSortBy(sortKey);
+  const sortCandidates = useCallback(
+    (
+      sortKey: 'none' | SortingKeys,
+      direction: SortDirection = 'asc',
+    ) => {
+      if (candidates && candidates.data) {
+        if (sortKey !== 'none') {
+          const sorted = sortArrOfObjs<
+            CandidateData,
+            SortingKeys
+          >(
+            candidates.data,
+            sortKey as SortingKeys,
+            direction,
+          );
 
-    if (candidates && candidates.data) {
-      if (sortKey !== 'none') {
-        const sorted = sortArrOfObjs<
-          CandidateData,
-          SortingKeys
-        >(candidates.data, sortKey as SortingKeys);
+          return queryClient.setQueryData(['candidates'], {
+            data: sorted,
+          });
+        }
 
-        queryClient.setQueryData(['candidates'], {
-          data: sorted,
-        });
-      } else {
-        queryClient.setQueryData(['candidates'], {
+        return queryClient.setQueryData(['candidates'], {
           data: candidatesCached.current,
         });
       }
-    }
+
+      return undefined;
+    },
+    [candidates, candidatesCached, queryClient],
+  );
+
+  const handleOnSortSelectionChange = (
+    sortKey: 'none' | SortingKeys,
+  ) => {
+    setSortBy(currentState => ({
+      ...currentState,
+      key: sortKey,
+    }));
+
+    return sortCandidates(sortKey, sortBy.dir);
+  };
+
+  const handleOnSortDirectionChange = (
+    direction: SortDirection,
+  ) => {
+    setSortBy(currentState => ({
+      ...currentState,
+      dir: direction,
+    }));
+
+    return sortCandidates(sortBy.key, direction);
   };
 
   let candidateList: JSX.Element | JSX.Element[] = (
@@ -93,9 +145,9 @@ export default function Home() {
           <Select
             ariaLabel="Sort by"
             placeholder="Select sorting..."
-            value={sortBy}
+            value={sortBy.key}
             onChange={(value: 'none' | SortingKeys) =>
-              sortCandidates(value)
+              handleOnSortSelectionChange(value)
             }
           >
             <Option value="none">None</Option>
@@ -109,6 +161,24 @@ export default function Home() {
               Application Date
             </Option>
           </Select>
+          {sortBy.key !== 'none' ? (
+            <ToggleGroup
+              value={sortBy.dir}
+              onValueChange={(dir: SortDirection) =>
+                handleOnSortDirectionChange(dir)
+              }
+              items={[
+                {
+                  value: 'asc',
+                  children: <IconSortAscending2 />,
+                },
+                {
+                  value: 'desc',
+                  children: <IconSortDescending2 />,
+                },
+              ]}
+            />
+          ) : null}
         </div>
       </div>
       <div className={styles['grid-container']}>
