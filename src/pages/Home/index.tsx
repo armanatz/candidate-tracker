@@ -32,7 +32,9 @@ export default function Home() {
       },
     });
 
-  const sortCandidates = (sortKey: string) => {
+  const sortCandidates = (
+    sortKey: 'none' | SortingKeys,
+  ) => {
     setSortBy(sortKey);
 
     if (candidates && candidates.data) {
@@ -89,10 +91,12 @@ export default function Home() {
         >
           <p>Sort By:</p>
           <Select
-            label="Sort by"
+            ariaLabel="Sort by"
             placeholder="Select sorting..."
             value={sortBy}
-            onChange={sortCandidates}
+            onChange={(value: 'none' | SortingKeys) =>
+              sortCandidates(value)
+            }
           >
             <Option value="none">None</Option>
             <Option value="position_applied">

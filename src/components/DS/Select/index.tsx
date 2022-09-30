@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import {
   Root,
   Trigger,
@@ -5,47 +6,63 @@ import {
   Icon,
   Portal,
   Content,
+  ScrollUpButton,
   Viewport,
+  ScrollDownButton,
 } from '@radix-ui/react-select';
-import { IconChevronDown } from '@tabler/icons';
+import {
+  IconChevronDown,
+  IconCaretUp,
+  IconCaretDown,
+} from '@tabler/icons';
 
 import styles from './Select.module.scss';
 
 interface SelectProps extends React.PropsWithChildren {
-  label: string;
+  ariaLabel: string;
   placeholder: string;
   value?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: any) => void;
 }
 
-function Select({
-  children,
-  label,
-  placeholder,
-  value,
-  onChange,
-}: SelectProps) {
-  return (
-    <Root value={value} onValueChange={onChange}>
-      <Trigger
-        aria-label={label}
-        className={styles.trigger}
+const Select = forwardRef<HTMLButtonElement, SelectProps>(
+  ({ children, ...props }, forwardedRef) => {
+    return (
+      <Root
+        value={props.value}
+        onValueChange={props.onChange}
       >
-        <Value placeholder={placeholder} />
-        <Icon className={styles.icon}>
-          <IconChevronDown />
-        </Icon>
-      </Trigger>
-      <Portal>
-        <Content className={styles.content}>
-          <Viewport className={styles.viewport}>
-            {children}
-          </Viewport>
-        </Content>
-      </Portal>
-    </Root>
-  );
-}
+        <Trigger
+          ref={forwardedRef}
+          aria-label={props.ariaLabel}
+          className={styles.trigger}
+        >
+          <Value placeholder={props.placeholder} />
+          <Icon className={styles.icon}>
+            <IconChevronDown />
+          </Icon>
+        </Trigger>
+        <Portal>
+          <Content className={styles.content}>
+            <ScrollUpButton
+              className={styles['scroll-btn']}
+            >
+              <IconCaretUp />
+            </ScrollUpButton>
+            <Viewport className={styles.viewport}>
+              {children}
+            </Viewport>
+            <ScrollDownButton
+              className={styles['scroll-btn']}
+            >
+              <IconCaretDown />
+            </ScrollDownButton>
+          </Content>
+        </Portal>
+      </Root>
+    );
+  },
+);
 
 Select.defaultProps = {
   value: undefined,

@@ -22,6 +22,8 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'import/prefer-default-export': 'warn',
+    'react/display-name': 0,
+    'react/jsx-props-no-spreading': 0,
     'react/react-in-jsx-scope': 0,
     'react-hooks/exhaustive-deps': 'warn',
   },

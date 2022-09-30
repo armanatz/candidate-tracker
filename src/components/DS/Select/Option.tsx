@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { Item, ItemText } from '@radix-ui/react-select';
 
 import styles from './Select.module.scss';
@@ -6,13 +7,19 @@ interface OptionProps extends React.PropsWithChildren {
   value: string;
 }
 
-export default function Option({
-  children,
-  value,
-}: OptionProps) {
-  return (
-    <Item value={value} className={styles.item}>
-      <ItemText>{children}</ItemText>
-    </Item>
-  );
-}
+const Option = forwardRef<HTMLDivElement, OptionProps>(
+  ({ children, ...props }, forwardedRef) => {
+    return (
+      <Item
+        {...props}
+        ref={forwardedRef}
+        className={styles.item}
+        value={props.value}
+      >
+        <ItemText>{children}</ItemText>
+      </Item>
+    );
+  },
+);
+
+export default Option;
