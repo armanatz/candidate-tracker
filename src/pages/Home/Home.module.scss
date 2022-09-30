@@ -1,6 +1,6 @@
 @use '../../assets/styles/media_queries' as mediaQ;
 
-.action-area {
+.header {
   align-items: center;
   display: flex;
   justify-content: space-between;
@@ -24,6 +24,12 @@
       margin-left: 0;
     }
   }
+
+  .action-area {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
 }
 
 .grid-container {
@@ -38,30 +44,18 @@
   .grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(220px, 1fr)
-    );
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 
     @include mediaQ.tablet {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(340px, 1fr)
-      );
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     }
 
     @include mediaQ.tablet-landscape {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(300px, 1fr)
-      );
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
 
     @include mediaQ.pc-and-up {
-      grid-template-columns: repeat(
-        auto-fill,
-        minmax(260px, 1fr)
-      );
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
   }
 }

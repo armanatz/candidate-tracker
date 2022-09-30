@@ -22,6 +22,14 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
     'import/prefer-default-export': 'warn',
+    'jsx-a11y/label-has-associated-control': [
+      2,
+      {
+        labelAttributes: ['label'],
+        controlComponents: ['Select'],
+        depth: 1,
+      },
+    ],
     'react/display-name': 0,
     'react/jsx-props-no-spreading': 0,
     'react/react-in-jsx-scope': 0,

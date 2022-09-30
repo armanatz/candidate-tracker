@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   IconSortAscending2,
   IconSortDescending2,
@@ -9,28 +9,35 @@ import { useQueryClient } from '@tanstack/react-query';
 import { sortArrOfObjs } from '../../utils';
 import useGetCandidates from '../../hooks/queries/candidates';
 
-import {
-  Card,
-  Select,
-  Option,
-  ToggleGroup,
-} from '../../components/DS';
+import { ToggleGroup } from '../../components/DS';
 
-import CandidateInfo from '../../components/CandidateInfo';
+import CandidateCard from '../../components/Home/CandidateCard';
+import SortSelect from '../../components/Home/SortSelect';
 
 import styles from './Home.module.scss';
 
-type SortingKeys =
-  | 'position_applied'
-  | 'year_of_experience'
-  | 'application_date';
-
 type SortByState = {
-  key: 'none' | SortingKeys;
+  key: 'none' | CandidateSortKeys;
   dir: SortDirection;
 };
 
 export default function Home() {
+  const queryClient = useQueryClient();
+
+  const sortDirectionToggles = useMemo(
+    () => [
+      {
+        value: 'asc',
+        children: <IconSortAscending2 />,
+      },
+      {
+        value: 'desc',
+        children: <IconSortDescending2 />,
+      },
+    ],
+    [],
+  );
+
   const candidatesCached = useRef<CandidateData[]>([]);
 
   const [sortBy, setSortBy] = useState<SortByState>({
@@ -38,56 +45,45 @@ export default function Home() {
     dir: 'asc',
   });
 
-  const queryClient = useQueryClient();
-
-  const { data: candidates, status: candidatesStatus } =
-    useGetCandidates({
-      onSuccess: data => {
+  const { data: candidates, status: candidatesStatus } = useGetCandidates({
+    onSuccess: data => {
+      if (sortBy.key !== 'none') {
         setSortBy(currentState => ({
           ...currentState,
           key: 'none',
         }));
-
-        if (data.data) {
-          candidatesCached.current = data.data;
-        }
-      },
-    });
-
-  const sortCandidates = useCallback(
-    (
-      sortKey: 'none' | SortingKeys,
-      direction: SortDirection = 'asc',
-    ) => {
-      if (candidates && candidates.data) {
-        if (sortKey !== 'none') {
-          const sorted = sortArrOfObjs<
-            CandidateData,
-            SortingKeys
-          >(
-            candidates.data,
-            sortKey as SortingKeys,
-            direction,
-          );
-
-          return queryClient.setQueryData(['candidates'], {
-            data: sorted,
-          });
-        }
-
-        return queryClient.setQueryData(['candidates'], {
-          data: candidatesCached.current,
-        });
       }
 
-      return undefined;
+      if (data.data) {
+        candidatesCached.current = data.data;
+      }
     },
-    [candidates, candidatesCached, queryClient],
-  );
+  });
 
-  const handleOnSortSelectionChange = (
-    sortKey: 'none' | SortingKeys,
+  const sortCandidates = (
+    key: 'none' | CandidateSortKeys,
+    dir: SortDirection = 'asc',
   ) => {
+    if (candidates && candidates.data) {
+      if (key !== 'none') {
+        const sortedData = sortArrOfObjs<CandidateData, CandidateSortKeys>(
+          candidates.data,
+          key,
+          dir,
+        );
+
+        return queryClient.setQueryData(['candidates'], {
+          data: sortedData,
+        });
+      }
+    }
+
+    return queryClient.setQueryData(['candidates'], {
+      data: candidatesCached.current,
+    });
+  };
+
+  const handleOnSortSelectionChange = (sortKey: 'none' | CandidateSortKeys) => {
     setSortBy(currentState => ({
       ...currentState,
       key: sortKey,
@@ -96,87 +92,42 @@ export default function Home() {
     return sortCandidates(sortKey, sortBy.dir);
   };
 
-  const handleOnSortDirectionChange = (
-    direction: SortDirection,
-  ) => {
+  const handleOnSortDirectionChange = (dir: SortDirection) => {
     setSortBy(currentState => ({
       ...currentState,
-      dir: direction,
+      dir,
     }));
 
-    return sortCandidates(sortBy.key, direction);
+    return sortCandidates(sortBy.key, dir);
   };
 
-  let candidateList: JSX.Element | JSX.Element[] = (
-    <p>Loading...</p>
-  );
+  let candidateList: JSX.Element | JSX.Element[] = <p>Loading...</p>;
 
   if (candidatesStatus === 'success' && candidates.data) {
     candidateList = candidates.data?.map(candidate => (
-      <Card withPadding={false} key={candidate.id}>
-        <CandidateInfo
-          name={candidate.name}
-          email={candidate.email}
-          birthDate={candidate.birth_date}
-          yearsOfExperience={candidate.year_of_experience}
-          positionApplied={candidate.position_applied}
-          applicationDate={candidate.application_date}
-          status={candidate.status}
-        />
-      </Card>
+      <CandidateCard key={candidate.id} {...candidate} />
     ));
   }
 
   return (
     <div>
-      <div className={styles['action-area']}>
+      <div className={styles.header}>
         <div className={styles.title}>
           <IconUsers stroke={2.5} />
           <h1>Applicants</h1>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5em',
-          }}
-        >
-          <p>Sort By:</p>
-          <Select
-            ariaLabel="Sort by"
-            placeholder="Select sorting..."
-            value={sortBy.key}
-            onChange={(value: 'none' | SortingKeys) =>
-              handleOnSortSelectionChange(value)
-            }
-          >
-            <Option value="none">None</Option>
-            <Option value="position_applied">
-              Position Applied
-            </Option>
-            <Option value="year_of_experience">
-              Years of Experience
-            </Option>
-            <Option value="application_date">
-              Application Date
-            </Option>
-          </Select>
+        <div className={styles['action-area']}>
+          <SortSelect
+            selectedValue={sortBy.key}
+            onChange={handleOnSortSelectionChange}
+          />
           {sortBy.key !== 'none' ? (
             <ToggleGroup
               value={sortBy.dir}
               onValueChange={(dir: SortDirection) =>
                 handleOnSortDirectionChange(dir)
               }
-              items={[
-                {
-                  value: 'asc',
-                  children: <IconSortAscending2 />,
-                },
-                {
-                  value: 'desc',
-                  children: <IconSortDescending2 />,
-                },
-              ]}
+              items={sortDirectionToggles}
             />
           ) : null}
         </div>
