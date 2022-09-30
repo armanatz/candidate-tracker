@@ -1,21 +1,22 @@
 .container {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  position: fixed;
-  width: 100%;
-  min-height: 3rem;
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  z-index: 100;
+  display: flex;
+  min-height: 3rem;
+  padding-left: 6rem;
+  padding-right: 1rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 
 .logo {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-top: 0.5rem;
+  justify-content: flex-start;
   margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 
   h1 {
     font-size: 2rem;
@@ -23,8 +24,8 @@
   }
 
   img {
-    width: auto;
     height: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
+    width: 80%;
   }
 }

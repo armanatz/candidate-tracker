@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { IconUsers } from '@tabler/icons';
+import { useQueryClient } from '@tanstack/react-query';
 
+import { sortArrOfObjs } from '../../utils';
 import useGetCandidates from '../../hooks/queries/candidates';
 
 import { Card, Select, Option } from '../../components/DS';
@@ -9,14 +11,46 @@ import CandidateInfo from '../../components/CandidateInfo';
 
 import styles from './Home.module.scss';
 
+type SortingKeys =
+  | 'position_applied'
+  | 'year_of_experience'
+  | 'application_date';
+
 export default function Home() {
+  const candidatesCached = useRef<CandidateData[]>([]);
   const [sortBy, setSortBy] = useState('none');
 
-  const { data: candidates, status: candidatesStatus } =
-    useGetCandidates();
+  const queryClient = useQueryClient();
 
-  const sortCandidates = (value: string) => {
-    setSortBy(value);
+  const { data: candidates, status: candidatesStatus } =
+    useGetCandidates({
+      onSuccess: data => {
+        setSortBy('none');
+        if (data.data) {
+          candidatesCached.current = data.data;
+        }
+      },
+    });
+
+  const sortCandidates = (sortKey: string) => {
+    setSortBy(sortKey);
+
+    if (candidates && candidates.data) {
+      if (sortKey !== 'none') {
+        const sorted = sortArrOfObjs<
+          CandidateData,
+          SortingKeys
+        >(candidates.data, sortKey as SortingKeys);
+
+        queryClient.setQueryData(['candidates'], {
+          data: sorted,
+        });
+      } else {
+        queryClient.setQueryData(['candidates'], {
+          data: candidatesCached.current,
+        });
+      }
+    }
   };
 
   let candidateList: JSX.Element | JSX.Element[] = (
