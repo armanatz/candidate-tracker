@@ -1,0 +1,78 @@
+@use '../../../assets/styles/variables' as vars;
+@use 'sass:color';
+
+.trigger {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.3rem;
+  padding: 0 15px;
+  font-size: 1rem;
+  line-height: 1;
+  background-color: white;
+  color: #333;
+  height: 35px;
+  border: 1px solid #ccc;
+
+  &:hover {
+    background-color: color.scale(
+      vars.$secondary-color,
+      $lightness: 80%
+    );
+  }
+
+  &:focus {
+    box-shadow: rgb(0 0 0) 0 0 0 2px;
+  }
+
+  &[data-placeholder] {
+    color: #ccc;
+  }
+}
+
+.icon {
+  margin-top: 0.2em;
+  margin-left: 0.5em;
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+.content {
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  box-shadow: rgb(22 23 24 / 35%) 0 10px 38px -10px,
+    0 rgb(22 23 24 / 20%) 10px 20px -15px;
+}
+
+.viewport {
+  padding: 0.5rem;
+}
+
+.item {
+  all: unset;
+  font-size: 13;
+  line-height: 1;
+  color: #333;
+  border-radius: 0.3rem;
+  display: flex;
+  align-items: center;
+  height: 25px;
+  padding: 0 35px 0 25px;
+  position: relative;
+  user-select: none;
+
+  &[data-state='checked'] {
+    background-color: vars.$primary-color;
+    color: #fff;
+  }
+
+  &[data-highlighted][data-state='unchecked'] {
+    color: vars.$primary-color;
+  }
+}
