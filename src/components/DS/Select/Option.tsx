@@ -1,3 +1,6 @@
+// Implemented using Radix UI Select Primitive
+// Docs: https://www.radix-ui.com/docs/primitives/components/select
+
 import { forwardRef } from 'react';
 import { Item, ItemText } from '@radix-ui/react-select';
 

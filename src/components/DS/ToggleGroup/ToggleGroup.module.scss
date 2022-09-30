@@ -1,0 +1,45 @@
+@use '../../../assets/styles/variables' as vars;
+@use 'sass:color';
+
+.root {
+  display: inline-flex;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+}
+
+.item {
+  all: unset;
+  align-items: center;
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0.4rem;
+
+  &:first-child {
+    border-bottom-left-radius: 0.3rem;
+    border-top-left-radius: 0.3rem;
+    margin-left: 0;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+  }
+
+  &:hover {
+    background-color: vars.$secondary-color;
+  }
+
+  &[data-state='on'] {
+    background-color: vars.$primary-color;
+    color: #fff;
+  }
+
+  &:focus {
+    position: relative;
+  }
+}
