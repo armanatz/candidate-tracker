@@ -1,7 +1,7 @@
 // Implemented using Radix UI Toggle Group Primitive
 // Docs: https://www.radix-ui.com/docs/primitives/components/toggle-group
 
-import { forwardRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { Root, Item } from '@radix-ui/react-toggle-group';
 
 import styles from './ToggleGroup.module.scss';
@@ -62,6 +62,16 @@ const MultiToggleGroup = forwardRef<HTMLDivElement, MultiToggleGroupProps>(
   (props, forwardedRef) => {
     const { value, onValueChange } = props;
     const [toggleValue, setToggleValue] = useState(value || []);
+
+    const resetValue = useCallback(() => {
+      if (value && value !== toggleValue) {
+        setToggleValue(value);
+      }
+    }, [value, toggleValue]);
+
+    useEffect(() => {
+      resetValue();
+    }, [value, resetValue]);
 
     const handleOnValueChange = (changedValue: string[]) => {
       setToggleValue(changedValue);

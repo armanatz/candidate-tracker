@@ -24,8 +24,8 @@ const FilterForm = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const [name, setName] = useState(
-    getCurrentSearchParams(searchParams).filter_name || '',
+  const [name, setName] = useState<string | undefined>(
+    getCurrentSearchParams(searchParams).filter_name,
   );
   const [position, setPosition] = useState(
     getCurrentSearchParams(searchParams).filter_position_applied || 'none',
@@ -80,13 +80,16 @@ const FilterForm = () => {
     const cleanSearchParams = cleanUpFilterSearchParams();
     const isDataSorted = sortBy.key !== 'none';
 
-    setSearchParams(() => ({ ...cleanSearchParams }));
-    filters.current = {};
-    setFilters({});
-
     const queryData = queryClient.getQueryData<GetCandidatesResponse>([
       'candidates',
     ])?.data;
+
+    filters.current = {};
+    setSearchParams(() => ({ ...cleanSearchParams }));
+    setFilters({});
+    setName(undefined);
+    setPosition('none');
+    setStatus([]);
 
     if (isDataSorted) {
       return sortCandidates({
@@ -103,15 +106,16 @@ const FilterForm = () => {
     const cleanSearchParams = cleanUpFilterSearchParams();
 
     const newFilters = {
-      ...(name !== '' && {
-        name: {
-          value: name,
-          handler: (str: string) =>
-            pureName(str)
-              .toLocaleLowerCase()
-              .includes(name.toLocaleLowerCase()),
-        },
-      }),
+      ...(name &&
+        name !== '' && {
+          name: {
+            value: name,
+            handler: (str: string) =>
+              pureName(str)
+                .toLocaleLowerCase()
+                .includes(name.toLocaleLowerCase()),
+          },
+        }),
       ...(position !== 'none' && {
         position_applied: position,
       }),
@@ -153,7 +157,7 @@ const FilterForm = () => {
 
     setSearchParams(() => ({
       ...cleanSearchParams,
-      ...(name !== '' && { filter_name: name }),
+      ...(name && name !== '' && { filter_name: name }),
       ...(position !== 'none' && {
         filter_position_applied: position,
       }),

@@ -1,7 +1,7 @@
 // Implemented using Radix UI Select Primitive
 // Docs: https://www.radix-ui.com/docs/primitives/components/select
 
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useCallback, useEffect } from 'react';
 import {
   Root,
   Trigger,
@@ -54,6 +54,16 @@ const Select = forwardRef<HTMLButtonElement, MySelectProps>(
     const { value, onValueChange } = props;
 
     const [selectValue, setSelectValue] = useState(value || undefined);
+
+    const resetValue = useCallback(() => {
+      if (value && value !== selectValue) {
+        setSelectValue(value);
+      }
+    }, [value, selectValue]);
+
+    useEffect(() => {
+      resetValue();
+    }, [value, resetValue]);
 
     const handleOnValueChange = (changedValue: string) => {
       setSelectValue(changedValue);
