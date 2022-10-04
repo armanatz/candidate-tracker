@@ -210,7 +210,7 @@ const FilterForm = () => {
         />
       </FormControl>
       <FormControl inline className={styles['buttons-area']}>
-        {Object.keys(filters.current).length !== 0 ? (
+        {Object.keys(filtersFromContext).length !== 0 ? (
           <button type="reset" className={styles.button} onClick={handleReset}>
             <IconRefresh />
           </button>
