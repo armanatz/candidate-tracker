@@ -17,6 +17,7 @@ const FilterForm = () => {
   const {
     sortBy,
     candidates,
+    setCandidates,
     filters: filtersFromContext,
     setFilters,
   } = useContext(CandidatesContext);
@@ -82,10 +83,19 @@ const FilterForm = () => {
     filters.current = {};
     setFilters({});
 
-    return filterCandidates({
-      filters: filters.current,
-      ...(isDataSorted && { data: candidates }),
-    });
+    const queryData = queryClient.getQueryData<GetCandidatesResponse>([
+      'candidates',
+    ])?.data;
+
+    if (isDataSorted) {
+      return sortCandidates({
+        data: queryData,
+        sortKey: sortBy.key,
+        sortDir: sortBy.dir,
+      });
+    }
+
+    return setCandidates(queryData || []);
   };
 
   const handleSubmit = () => {
