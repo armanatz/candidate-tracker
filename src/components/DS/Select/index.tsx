@@ -1,7 +1,7 @@
 // Implemented using Radix UI Select Primitive
 // Docs: https://www.radix-ui.com/docs/primitives/components/select
 
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import {
   Root,
   Trigger,
@@ -13,25 +13,67 @@ import {
   Viewport,
   ScrollDownButton,
   SelectProps,
+  Item,
+  ItemText,
+  SelectItemProps,
 } from '@radix-ui/react-select';
 import { IconChevronDown, IconCaretUp, IconCaretDown } from '@tabler/icons';
+import classNames from 'classnames';
 
 import styles from './Select.module.scss';
 
-interface MySelectProps extends SelectProps {
-  ariaLabel: string;
-  placeholder: string;
-  onChange?: (value: any) => void;
+interface OptionProps extends SelectItemProps {
+  name: string;
 }
 
-const Select = forwardRef<HTMLButtonElement, MySelectProps>(
+interface MySelectProps extends SelectProps {
+  placeholder: string;
+  items: OptionProps[];
+  id?: string;
+  ariaLabel?: string;
+  className?: string;
+}
+
+const Option = forwardRef<HTMLDivElement, Omit<OptionProps, 'name'>>(
   ({ children, ...props }, forwardedRef) => {
     return (
-      <Root {...props} value={props.value} onValueChange={props.onChange}>
+      <Item
+        {...props}
+        ref={forwardedRef}
+        className={styles.item}
+        value={props.value}
+      >
+        <ItemText>{children}</ItemText>
+      </Item>
+    );
+  },
+);
+
+const Select = forwardRef<HTMLButtonElement, MySelectProps>(
+  ({ ...props }, forwardedRef) => {
+    const { value, onValueChange } = props;
+
+    const [selectValue, setSelectValue] = useState(value || undefined);
+
+    const handleOnValueChange = (changedValue: string) => {
+      setSelectValue(changedValue);
+
+      if (onValueChange) {
+        return onValueChange(changedValue);
+      }
+
+      return false;
+    };
+
+    return (
+      <Root {...props} value={selectValue} onValueChange={handleOnValueChange}>
         <Trigger
+          id={props.id}
           ref={forwardedRef}
           aria-label={props.ariaLabel}
-          className={styles.trigger}
+          className={classNames(styles.trigger, {
+            [`${props.className}`]: props.className,
+          })}
         >
           <Value placeholder={props.placeholder} />
           <Icon className={styles.icon}>
@@ -43,7 +85,13 @@ const Select = forwardRef<HTMLButtonElement, MySelectProps>(
             <ScrollUpButton className={styles['scroll-btn']}>
               <IconCaretUp />
             </ScrollUpButton>
-            <Viewport className={styles.viewport}>{children}</Viewport>
+            <Viewport className={styles.viewport}>
+              {props.items.map(item => (
+                <Option key={item.value} value={item.value}>
+                  {item.name}
+                </Option>
+              ))}
+            </Viewport>
             <ScrollDownButton className={styles['scroll-btn']}>
               <IconCaretDown />
             </ScrollDownButton>
@@ -55,7 +103,9 @@ const Select = forwardRef<HTMLButtonElement, MySelectProps>(
 );
 
 Select.defaultProps = {
-  onChange: undefined,
+  id: undefined,
+  ariaLabel: undefined,
+  className: undefined,
 };
 
 export default Select;

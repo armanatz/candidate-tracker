@@ -8,8 +8,9 @@ const BASE_URL = `${API_PROTO}://${API_DOMAIN}/${API_ENDPOINT}`;
 
 const axiosPublic = axios.create({
   baseURL: BASE_URL,
+  timeout: 20000,
 });
 
-export default function useAxio() {
+export default function useAxios() {
   return axiosPublic;
 }

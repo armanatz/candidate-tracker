@@ -2,7 +2,6 @@
 @use 'sass:color';
 
 .trigger {
-  all: unset;
   align-items: center;
   background-color: white;
   border: 1px solid #ccc;
@@ -10,19 +9,13 @@
   color: #333;
   display: inline-flex;
   font-size: 1rem;
-  justify-content: center;
+  height: 34px;
+  justify-content: space-between;
   line-height: 1;
   padding: 0.5rem 1rem;
 
   &:hover {
-    background-color: color.scale(
-      vars.$secondary-color,
-      $lightness: 80%
-    );
-  }
-
-  &:focus {
-    box-shadow: rgb(0 0 0) 0 0 0 2px;
+    background-color: color.scale(vars.$secondary-color, $lightness: 80%);
   }
 
   &[data-placeholder] {
@@ -64,7 +57,6 @@
 }
 
 .item {
-  all: unset;
   align-items: center;
   border-radius: 0.3rem;
   color: #333;

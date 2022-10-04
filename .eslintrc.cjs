@@ -30,6 +30,14 @@ module.exports = {
         depth: 1,
       },
     ],
+    'react/button-has-type': [
+      'error',
+      {
+        button: true,
+        submit: true,
+        reset: true,
+      },
+    ],
     'react/display-name': 0,
     'react/function-component-definition': [
       'error',

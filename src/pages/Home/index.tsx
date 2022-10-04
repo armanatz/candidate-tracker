@@ -3,38 +3,82 @@ import { IconUsers } from '@tabler/icons';
 
 import CandidatesContext from '../../contexts/Candidates';
 
-import useGetCandidates from '../../hooks/queries/candidates';
+import {
+  useFilterCandidates,
+  useGetCandidates,
+  useSortCandidates,
+} from '../../hooks';
 
 import CandidateCard from '../../components/Home/CandidateCard';
 import ActionArea from '../../components/Home/ActionArea';
+import FullPageLoader from '../../components/FullPageLoader';
 
 import styles from './Home.module.scss';
 
 export default function Home() {
-  const { sortBy, setSortBy, setCandidatesCached } =
+  const { sortBy, candidates, setCandidates, filters } =
     useContext(CandidatesContext);
+  const sortCandidates = useSortCandidates();
+  const filterCandidates = useFilterCandidates();
 
-  const { data: candidates, status: candidatesStatus } = useGetCandidates({
-    onSuccess: data => {
-      if (sortBy.key !== 'none') {
-        setSortBy(currentState => ({
-          ...currentState,
-          key: 'none',
-        }));
-      }
+  const handleQuerySuccess = (res: GetCandidatesResponse) => {
+    let { data } = res;
 
-      if (data.data) {
-        setCandidatesCached(data.data);
-      }
-    },
-  });
+    if (sortBy.key !== 'none') {
+      data = sortCandidates({
+        data,
+        saveData: false,
+        sortKey: sortBy.key,
+        sortDir: sortBy.dir,
+      });
+    }
 
-  let candidateList: JSX.Element | JSX.Element[] = <p>Loading...</p>;
+    if (Object.keys(filters).length !== 0) {
+      data = filterCandidates({
+        data,
+        saveData: false,
+        filters,
+      });
+    }
 
-  if (candidatesStatus === 'success' && candidates.data) {
-    candidateList = candidates.data?.map(candidate => (
+    if (data) {
+      setCandidates(data);
+    }
+  };
+
+  const { data: fetchedCandidates, status: candidatesStatus } =
+    useGetCandidates({
+      retry: 2,
+      onSuccess: handleQuerySuccess,
+    });
+
+  if (candidatesStatus === 'loading') {
+    return <FullPageLoader />;
+  }
+
+  let candidateList: JSX.Element[] = [];
+
+  const renderListFromContext =
+    candidates.length !== 0 ||
+    (candidatesStatus === 'success' &&
+      candidates.length === 0 &&
+      (sortBy.key !== 'none' || Object.keys(filters).length !== 0));
+
+  const renderListFromQuery =
+    sortBy.key === 'none' &&
+    Object.keys(filters).length !== 0 &&
+    fetchedCandidates &&
+    fetchedCandidates.data &&
+    candidatesStatus === 'success';
+
+  if (renderListFromContext) {
+    candidateList = candidates.map(candidate => (
       <CandidateCard key={candidate.id} {...candidate} />
     ));
+  } else if (renderListFromQuery) {
+    candidateList = fetchedCandidates.data?.map(candidate => (
+      <CandidateCard key={candidate.id} {...candidate} />
+    )) as JSX.Element[];
   }
 
   return (
@@ -46,8 +90,19 @@ export default function Home() {
         </div>
         <ActionArea />
       </div>
-      <div className={styles['grid-container']}>
-        <div className={styles.grid}>{candidateList}</div>
+      <div className={styles.main}>
+        <h2 className={styles.total}>
+          Total ({candidates.length}/{fetchedCandidates?.data?.length})
+        </h2>
+        <div className={styles['grid-container']}>
+          {candidateList?.length !== 0 ? (
+            <div className={styles.grid}>{candidateList}</div>
+          ) : (
+            <div style={{ textAlign: 'center' }}>
+              <p>No candidates found</p>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
