@@ -30,22 +30,24 @@ export default function CandidateInfo({
       <div className={styles.container}>
         <div className={styles.bio}>
           <div>
-            <h2>{name}</h2>
+            <h2>{name || 'Name Missing!'}</h2>
           </div>
-          <div className={styles.email}>
-            <IconMail />
-            <a href={`mailto:${email}`}>{email}</a>
-          </div>
+          {email ? (
+            <div className={styles.email}>
+              <IconMail />
+              <a href={`mailto:${email || ''}`}>{email}</a>
+            </div>
+          ) : null}
         </div>
         <div className={styles.info}>
           <div>
             <p className={styles.topic}>Position</p>
-            <p>{positionApplied}</p>
+            <p>{positionApplied || 'Position Missing!'}</p>
           </div>
           <div>
             <p className={styles.topic}>Experience</p>
             <p>
-              {yearsOfExperience}{' '}
+              {yearsOfExperience || 0}{' '}
               {yearsOfExperience > 1 && yearsOfExperience !== 0
                 ? 'years'
                 : 'year'}
@@ -53,11 +55,13 @@ export default function CandidateInfo({
           </div>
           <div>
             <p className={styles.topic}>Applied On</p>
-            <p>{prettyDate(applicationDate)}</p>
+            <p>
+              {applicationDate ? prettyDate(applicationDate) : 'Date Missing!'}
+            </p>
           </div>
           <div>
             <p className={styles.topic}>Age</p>
-            <p>{calculateAge(birthDate)}</p>
+            <p>{birthDate ? calculateAge(birthDate) : 0}</p>
           </div>
         </div>
       </div>
@@ -74,7 +78,7 @@ export default function CandidateInfo({
             },
           )}
         >
-          <b>{toTitleCase(status)}</b>
+          <b>{status ? toTitleCase(status) : 'Status Missing!'}</b>
         </div>
       </div>
     </>
