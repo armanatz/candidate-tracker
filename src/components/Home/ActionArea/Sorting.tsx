@@ -10,7 +10,8 @@ import { getCurrentSearchParams } from '../../../utils';
 import { FormControl, Select, SingleToggleGroup } from '../../DS';
 
 export default function Sorting() {
-  const { sortBy, setSortBy } = useContext(CandidatesContext);
+  const { candidates, sortBy, setSortBy, filters } =
+    useContext(CandidatesContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortCandidates = useSortCandidates();
 
@@ -42,6 +43,12 @@ export default function Sorting() {
       ...(!currentSearchParams.sortDir && { sortDir }),
     });
 
+    const isDataFiltered = Object.keys(filters).length !== 0;
+
+    if (isDataFiltered) {
+      return sortCandidates({ data: candidates, sortKey, sortDir });
+    }
+
     return sortCandidates({ sortKey, sortDir });
   };
 
@@ -63,6 +70,12 @@ export default function Sorting() {
       ...currentSearchParams,
       sortDir,
     });
+
+    const isDataFiltered = Object.keys(filters).length !== 0;
+
+    if (isDataFiltered) {
+      return sortCandidates({ data: candidates, sortKey, sortDir });
+    }
 
     return sortCandidates({ sortKey, sortDir });
   };
