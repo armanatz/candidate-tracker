@@ -14,6 +14,15 @@ A minimal starter for React with TypeScript support with out of the box formatti
 - Comes with a light VSCode setting file to enable formatting on save for JSON, JavaScript, TypeScript, TypeScript React, and Markdown files.
 - Recommends useful extensions to install when using VSCode as your editor.
 
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [Docs](/docs/)
+  - [Design Decisions](/docs/DESIGN_DECISIONS.md)
+  - [Wish List](/docs/WISHLIST.md)
+
 ## Getting Started
 
 Either use this repo as a [GitHub template](https://github.com/armanatz/Reactivite) or use [degit](https://github.com/Rich-Harris/degit) to make a clean copy of this repo:
@@ -46,13 +55,47 @@ To build your application, run:
 
 ```
 // If using NPM as your package manager
-npm build
+npm run build
 
 // If using Yarn as your package manager
 yarn build
 ```
 
 Build files will be located in the `dist` folder once generated.
+
+## Project Structure
+```
+.husky
+.vscode
+docs
+public
+src/
+├── @types                        // All globally accessible types
+├── assets/
+│   └── styles                    // Global stylesheets
+├── components/
+│   ├── CandidateInfo
+│   ├── DS/                       // Custom Design System components
+│   │   ├── Card
+│   │   ├── FormControl
+│   │   ├── Input
+│   │   ├── Popover
+│   │   ├── Select
+│   │   └── ToggleGroup
+│   ├── ErrorBoundary
+│   ├── FullPageLoader
+│   ├── Home/
+│   │   └── ActionArea
+│   └── Layout
+├── contexts
+├── hooks/
+│   └── queries                   // Abstracted useQuery hooks
+├── pages/
+│   ├── Home
+│   └── NotFound
+└── utils/                        // Utility functions
+    └── __tests__
+```
 
 ## Available Scripts
 
