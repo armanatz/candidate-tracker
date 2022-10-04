@@ -50,14 +50,15 @@ const FilterForm = () => {
     ])?.data;
 
     if (queryData) {
-      const uniquePositions = [
+      return [
         ...new Set(queryData.map(candidate => candidate.position_applied)),
-      ].sort();
-
-      return uniquePositions.map(item => ({
-        value: item,
-        name: item,
-      }));
+      ]
+        .filter(pos => pos !== null && pos !== undefined && pos !== '')
+        .sort()
+        .map(item => ({
+          value: item,
+          name: item,
+        }));
     }
 
     return [];
