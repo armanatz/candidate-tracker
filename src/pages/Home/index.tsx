@@ -50,6 +50,12 @@ export default function Home() {
     useGetCandidates({
       retry: 2,
       onSuccess: handleQuerySuccess,
+      onError: () => {
+        // eslint-disable-next-line no-alert
+        alert(
+          'Something went wrong trying to fetch candidates. Refresh the page to try fetching the data again.',
+        );
+      },
     });
 
   if (candidatesStatus === 'loading') {
@@ -92,7 +98,7 @@ export default function Home() {
       </div>
       <div className={styles.main}>
         <h2 className={styles.total}>
-          Total ({candidates.length}/{fetchedCandidates?.data?.length})
+          Total ({candidates.length}/{fetchedCandidates?.data?.length || 0})
         </h2>
         <div className={styles['grid-container']}>
           {candidateList?.length !== 0 ? (
