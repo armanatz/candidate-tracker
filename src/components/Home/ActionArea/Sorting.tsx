@@ -53,7 +53,7 @@ export default function Sorting() {
   };
 
   const handleOnSortDirectionChange = (sortDir: SortDirection | '') => {
-    if (sortDir === '') {
+    if (sortDir === '' || sortDir === sortBy.dir) {
       return false;
     }
 
