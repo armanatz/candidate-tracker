@@ -119,7 +119,7 @@ const FilterForm = () => {
             handler: (str: string) =>
               pureName(str)
                 .toLocaleLowerCase()
-                .includes(name.toLocaleLowerCase()),
+                .includes(name.toLocaleLowerCase().trim()),
           },
         }),
       ...(position !== 'none' && {
