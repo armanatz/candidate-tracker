@@ -9,23 +9,23 @@ import { getCurrentSearchParams } from '../../../utils';
 
 import { FormControl, Select, SingleToggleGroup } from '../../DS';
 
+const sortSelectItems = [
+  { value: 'none', name: 'None' },
+  { value: 'position_applied', name: 'Position Applied' },
+  { value: 'year_of_experience', name: 'Years of Experience' },
+  { value: 'application_date', name: 'Application Date' },
+];
+
+const sortDirectionToggles = [
+  { value: 'asc', children: <IconSortAscending2 /> },
+  { value: 'desc', children: <IconSortDescending2 /> },
+];
+
 export default function Sorting() {
   const { candidates, sortBy, setSortBy, filters } =
     useContext(CandidatesContext);
   const [searchParams, setSearchParams] = useSearchParams();
   const sortCandidates = useSortCandidates();
-
-  const sortSelectItems = [
-    { value: 'none', name: 'None' },
-    { value: 'position_applied', name: 'Position Applied' },
-    { value: 'year_of_experience', name: 'Years of Experience' },
-    { value: 'application_date', name: 'Application Date' },
-  ];
-
-  const sortDirectionToggles = [
-    { value: 'asc', children: <IconSortAscending2 /> },
-    { value: 'desc', children: <IconSortDescending2 /> },
-  ];
 
   const handleOnSortSelectionChange = (sortKey: UICandidateSortKeys) => {
     const sortDir = sortBy.dir;
