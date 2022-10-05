@@ -4,7 +4,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { IconRefresh } from '@tabler/icons';
 
 import { getCurrentSearchParams, pureName } from '../../../utils';
-import { useFilterCandidates, useSortCandidates } from '../../../hooks';
+import {
+  useThrottle,
+  useFilterCandidates,
+  useSortCandidates,
+} from '../../../hooks';
 
 import { FormControl, Input, Select, MultiToggleGroup } from '../../DS';
 
@@ -102,9 +106,11 @@ const FilterForm = () => {
     return setCandidates(queryData || []);
   };
 
-  const handleSubmit = () => {
+  const [handleSubmit] = useThrottle(() => {
+    // Let's clean up the search params first
     const cleanSearchParams = cleanUpFilterSearchParams();
 
+    // We need to reassign the latest form values to the filter
     const newFilters = {
       ...(name &&
         name !== '' && {
@@ -129,21 +135,40 @@ const FilterForm = () => {
       name: filters.current.name?.value,
     };
 
+    /*
+      Check if the previous filter values are different to the current
+      form values
+    */
     const isFilterDifferent =
       JSON.stringify(currentFilters) !== JSON.stringify(allFormValues);
 
+    // Check if data has already been filtered or sorted previously
     const isDataFiltered = Object.keys(filtersFromContext).length !== 0;
-
     const isDataSorted = sortBy.key !== 'none';
 
     let data = candidates;
 
     if (isFilterDifferent) {
+      /*
+        Since the data has been filtered before, we need to run the
+        new filter against the original candidate data to ensure we don't
+        filter using the pre-filtered data from before. Let's get that data
+        from the query client.
+      */
+
       const queryData = queryClient.getQueryData<GetCandidatesResponse>([
         'candidates',
       ])?.data;
 
       if (isDataSorted) {
+        /*
+          If the data was sorted beforehand, let's sort it again before
+          we filter just to ensure no problems occur.
+
+          TODO: We could potentially move the sorted candidates into their
+          own state in the candidate context later on if this computation
+          becomes too heavy in the future.
+        */
         data = sortCandidates({
           data: queryData,
           sortKey: sortBy.key,
@@ -172,7 +197,7 @@ const FilterForm = () => {
       filters: newFilters,
       ...((isDataSorted || isDataFiltered) && { data }),
     });
-  };
+  }, 500);
 
   return (
     <div>
