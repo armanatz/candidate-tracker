@@ -1,7 +1,14 @@
 import useAxios from './useAxios';
-import useSortCandidates from './useSortCandidates';
 import useFilterCandidates from './useFilterCandidates';
+import useSortCandidates from './useSortCandidates';
+import useThrottle from './useThrottle';
 
 import useGetCandidates from './queries/candidates';
 
-export { useAxios, useSortCandidates, useFilterCandidates, useGetCandidates };
+export {
+  useAxios,
+  useThrottle,
+  useFilterCandidates,
+  useSortCandidates,
+  useGetCandidates,
+};
