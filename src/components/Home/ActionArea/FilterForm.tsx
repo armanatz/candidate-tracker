@@ -16,8 +16,19 @@ import CandidatesContext from '../../../contexts/Candidates';
 
 import styles from './ActionArea.module.scss';
 
+const statusFilterToggles = [
+  { value: 'waiting', children: <p>Waiting</p> },
+  { value: 'approved', children: <p>Approved</p> },
+  { value: 'rejected', children: <p>Rejected</p> },
+];
+
 const FilterForm = () => {
   const queryClient = useQueryClient();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filters = useRef<CandidateFilters>({});
+  const filterCandidates = useFilterCandidates();
+  const sortCandidates = useSortCandidates();
+
   const {
     sortBy,
     candidates,
@@ -25,8 +36,6 @@ const FilterForm = () => {
     filters: filtersFromContext,
     setFilters,
   } = useContext(CandidatesContext);
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const [name, setName] = useState<string | undefined>(
     getCurrentSearchParams(searchParams).filter_name,
@@ -37,16 +46,6 @@ const FilterForm = () => {
   const [status, setStatus] = useState(
     getCurrentSearchParams(searchParams)?.filter_status?.split(',') || [],
   );
-
-  const filters = useRef<CandidateFilters>({});
-  const filterCandidates = useFilterCandidates();
-  const sortCandidates = useSortCandidates();
-
-  const statusFilterToggles = [
-    { value: 'waiting', children: <p>Waiting</p> },
-    { value: 'approved', children: <p>Approved</p> },
-    { value: 'rejected', children: <p>Rejected</p> },
-  ];
 
   const positions = useMemo(() => {
     const queryData = queryClient.getQueryData<GetCandidatesResponse>([
@@ -106,7 +105,8 @@ const FilterForm = () => {
     return setCandidates(queryData || []);
   };
 
-  const [handleSubmit] = useThrottle(() => {
+  const [handleSubmit] = useThrottle((e: React.FormEvent) => {
+    e.preventDefault();
     // Let's clean up the search params first
     const cleanSearchParams = cleanUpFilterSearchParams();
 
@@ -200,7 +200,7 @@ const FilterForm = () => {
   }, 500);
 
   return (
-    <div>
+    <form onSubmit={handleSubmit} onReset={handleReset}>
       <FormControl labelProps={{ name: 'Name', htmlFor: 'name' }}>
         <Input
           name="name"
@@ -253,7 +253,7 @@ const FilterForm = () => {
           Filter
         </button>
       </FormControl>
-    </div>
+    </form>
   );
 };
 
