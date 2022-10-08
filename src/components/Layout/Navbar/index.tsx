@@ -12,9 +12,9 @@ export default function NavBar() {
       <div>
         <div className={styles.logo}>
           {/* If the image hasn't fully loaded yet, let's show text instead. */}
-          {!imgLoaded ? <h1>Personio</h1> : null}
+          {!imgLoaded ? <h1>Company</h1> : null}
           <img
-            alt="Personio Logo"
+            alt="Company Logo"
             src={logo}
             onLoad={() => setImageLoaded(true)}
           />

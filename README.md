@@ -1,18 +1,8 @@
-# ⚡ [Reactivite](https://github.com/armanatz/Reactivite) ⚡
+# Candidate Tracker
 
-A minimal starter for React with TypeScript support with out of the box formatting and linting. Utilizes the blazing fast Vite build tool.
+Done as part of a coding assignment
 
-## Features
-
-- [React](https://reactjs.org) with [TypeScript](https://www.typescriptlang.org) using the [Vite](https://vitejs.dev) build tool.
-- Supports [Sass](https://sass-lang.com/) with [automatic type declaration file creation](https://github.com/activeguild/vite-plugin-sass-dts) when using SCSS Modules.
-- Utilizes [PostCSS](https://postcss.org/) with the [Autoprefixer](https://github.com/postcss/autoprefixer) plugin to optimize CSS and SCSS code.
-- Supports TypeScript [absolute imports](https://github.com/aleclarson/vite-tsconfig-paths).
-- Uses [ESLint](https://eslint.org) (with ESLint AirBnB Config), [stylelint](https://stylelint.io) and [Prettier](https://prettier.io) for code linting and formatting.
-- Runs pre-commit command using [Husky](https://github.com/typicode/husky) to run [lint-staged](https://github.com/okonet/lint-staged).
-- Unit and integration testing using [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/).
-- Comes with a light VSCode setting file to enable formatting on save for JSON, JavaScript, TypeScript, TypeScript React, and Markdown files.
-- Recommends useful extensions to install when using VSCode as your editor.
+Bootstrapped using my personal [Reactivite](https://github.com/armanatz/Reactivite) (React + Vite) template.
 
 ## Table of Contents
 
@@ -25,13 +15,7 @@ A minimal starter for React with TypeScript support with out of the box formatti
 
 ## Getting Started
 
-Either use this repo as a [GitHub template](https://github.com/armanatz/Reactivite) or use [degit](https://github.com/Rich-Harris/degit) to make a clean copy of this repo:
-
-```
-npx degit armanatz/Reactivite#master my-app
-```
-
-After that, navigate to your project folder and install dependencies:
+1. Navigate to the project folder and install dependencies:
 
 ```
 // If using NPM as your package manager
@@ -41,7 +25,15 @@ npm i
 yarn
 ```
 
-Then you can run the local development server using:
+2. Make a copy of the `.env.example` file in the project root and rename it to `.env.local`. Then fill out the following environment variables with the correct information:
+
+```
+VITE_API_PROTO= http | https
+VITE_API_DOMAIN= {THE FULLY QUALIFIED DOMAIN NAME OF THE API}
+VITE_API_ENDPOINT= {IF THERE IS AN ENDPOINT LIKE /api}
+```
+
+3. Then you can run the local development server using:
 
 ```
 // If using NPM as your package manager
@@ -51,7 +43,9 @@ npm run dev
 yarn dev
 ```
 
-To build your application, run:
+---
+
+To build the application, run:
 
 ```
 // If using NPM as your package manager
